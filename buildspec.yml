@@ -1,0 +1,19 @@
+version: 0.2
+env:
+  variables:
+    DESCRIPTION: sample function
+    RUN_TIME: python3.6
+    MEMORY: 128
+    TIMEOUT: 5
+    HANDLER: main.handler
+    ENV: TZ=Asia/Tokyo
+    ZIP_FILE: /tmp/upload.zip
+phases:
+  build:
+    commands:
+      - zip -r -q ${ZIP_FILE} *
+      - aws lambda update-function-code --function-name $FUNCTION_NAME --zip-file fileb://$ZIP_FILE --publish
+      - aws lambda update-function-configuration --function-name $FUNCTION_NAME --environment Variables={$ENV$STAGE} --memory-size $MEMORY --runtime $RUN_TIME --description "$DESCRIPTION" --timeout $TIMEOUT --handler $HANDLER
+  post_build:
+    commands:
+      - echo Deploy completed
