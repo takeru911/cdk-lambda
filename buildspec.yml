@@ -5,7 +5,7 @@ env:
     RUN_TIME: python3.6
     MEMORY: 128
     TIMEOUT: 5
-    HANDLER: index.handler
+    HANDLER: main.handler
     ENV: TZ=Asia/Tokyo
     ZIP_FILE: /tmp/upload.zip
 phases:
